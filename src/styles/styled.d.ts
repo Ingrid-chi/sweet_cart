@@ -14,9 +14,12 @@ declare module 'styled-components' {
     color: {
       primary: string;
       secondary: string;
+      third: string;
       primaryText: string;
       secondaryText: string;
+      thirdText: string;
       white: string;
+      primaryBackground: string;
     };
     font: {
       main: string;

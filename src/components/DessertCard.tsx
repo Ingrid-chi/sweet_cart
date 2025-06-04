@@ -1,42 +1,58 @@
-import { useState } from 'react';
-import type { Dessert } from '../types/dessert';
+// import { useState } from 'react';
 import { Icon } from '../components/icons/Icon';
+
 import styled from 'styled-components';
+
+import type { Dessert } from '../types/dessert';
+import type { Action } from '../reducers/cartReducer';
+import type { CartItem } from '../types';
 
 interface Props {
   item: Dessert;
+  dispatch: React.Dispatch<Action>;
+  cartItems: CartItem[];
 }
 
 interface ButtonProps {
-  active?: boolean;
+  $active?: boolean;
 }
 
-const DessertCard = ({ item }: Props) => {
-  const [added, setAdded] = useState(false);
-  const [quantity, setQuantity] = useState(1);
+const DessertCard = ({ item, dispatch, cartItems }: Props) => {
+  // const [added, setAdded] = useState(false);
+  // const [quantity, setQuantity] = useState(1);
+
+  const cartItem = cartItems.find((i) => i.id === item.id);
+  const quantity = cartItem ? cartItem.quantity : 0;
+  const added = !!cartItem;
 
   const handleAdd = () => {
-    setAdded(true);
-    setQuantity(1);
+    dispatch({ type: 'ADD_TO_CART', payload: item });
+    // setAdded(true);
+    // setQuantity(1);
   };
 
-  const increase = () => setQuantity((prev) => prev + 1);
+  const increase = () => {
+    // setQuantity((prev) => prev + 1);
+    dispatch({ type: 'INCREASE_QUANTITY', payload: { id: item.id } });
+  };
   const decrease = () => {
     if (quantity === 1) {
-      setAdded(false);
+      // setAdded(false);
+      dispatch({ type: 'REMOVE_FROM_CART', payload: { id: item.id } });
     } else {
-      setQuantity((prev) => prev - 1);
+      // setQuantity((prev) => prev - 1);
+      dispatch({ type: 'DECREASE_QUANTITY', payload: { id: item.id } });
     }
   };
 
   return (
-    <Card>
+    <CardWrapper>
       <ImageButtonWrapper>
         <ImageWrapper>
           <Image src={item.image} alt={item.name} />
         </ImageWrapper>
 
-        <Button active={added} onClick={!added ? handleAdd : undefined}>
+        <Button $active={added} onClick={!added ? handleAdd : undefined}>
           {added ? (
             <Quantity>
               <IconButton onClick={decrease}>
@@ -70,7 +86,7 @@ const DessertCard = ({ item }: Props) => {
       <Name>{item.name}</Name>
       {/* toFixed(2) 算到小數點後第二位 */}
       <Price>${item.price.toFixed(2)}</Price>
-    </Card>
+    </CardWrapper>
   );
 };
 export default DessertCard;
@@ -80,11 +96,12 @@ export default DessertCard;
 //
 //
 // styled-components
-const Card = styled.div`
+const CardWrapper = styled.div`
   font-family: ${({ theme }) => theme.font.main};
   color: ${({ theme }) => theme.color.primaryText};
 
-  max-width: 320px;
+  width: 100%;
+  /* max-width: 320px; */
   height: auto;
 `;
 
@@ -93,7 +110,7 @@ const ImageButtonWrapper = styled.div`
 `;
 
 const ImageWrapper = styled.div`
-  max-width: 100%;
+  width: 100%;
   height: auto;
   overflow: hidden;
   border-radius: 16px;
@@ -176,11 +193,11 @@ const Quantity = styled(BaseButtonStyle)`
   color: ${({ theme }) => theme.color.white};
 
   &:hover {
-    border: 1px solid ${({ theme }) => theme.color.secondary};
+    background-color: ${({ theme }) => theme.color.third};
   }
 `;
 
-const IconButton = styled.button`
+const IconButton = styled.div`
   cursor: pointer;
   background: none;
   border: none;

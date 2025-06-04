@@ -1,7 +1,7 @@
 export interface Dessert {
-  id: number;
+  id: string;
   name: string;
-  category: string;
   price: number;
+  category: string;
   image: string;
 }

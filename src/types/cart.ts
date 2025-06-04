@@ -1,6 +1,5 @@
-import type { Dessert } from './../data/desserts';
+import type { Dessert } from '../types/dessert';
 
-export interface CartItem {
-  dessert: Dessert;
+export interface CartItem extends Dessert {
   quantity: number;
 }

@@ -1,10 +1,13 @@
 export const theme = {
   color: {
     primary: '#BB441E',
-    secondary: '#ffa07a',
+    secondary: '#FFa07a',
+    third: '#952C0C',
     primaryText: '#0E0000',
     secondaryText: '#766C6A',
-    white: '#fff',
+    thirdText: '#E6E6E6',
+    white: '#FFF',
+    primaryBackground: '#FCF8F5',
   },
   font: {
     main: "'Noto Sans TC', sans-serif",
