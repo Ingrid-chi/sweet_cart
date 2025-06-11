@@ -45,10 +45,13 @@ const DessertCard = ({ item, dispatch, cartItems }: Props) => {
     }
   };
 
+  // .some()是陣列的方法，用來檢查陣列裡，是否至少有一個符合條件的項目，如果有就回傳 true,沒有就回傳 false
+  const isInCart = cartItems.some((cartItem) => cartItem.id === item.id);
+
   return (
     <CardWrapper>
       <ImageButtonWrapper>
-        <ImageWrapper>
+        <ImageWrapper inCart={isInCart}>
           <Image src={item.image} alt={item.name} />
         </ImageWrapper>
 
@@ -95,7 +98,7 @@ export default DessertCard;
 //
 //
 //
-// styled-components
+// ----- styled-components -----
 const CardWrapper = styled.div`
   font-family: ${({ theme }) => theme.font.main};
   color: ${({ theme }) => theme.color.primaryText};
@@ -109,11 +112,23 @@ const ImageButtonWrapper = styled.div`
   position: relative;
 `;
 
-const ImageWrapper = styled.div`
+const ImageWrapper = styled.div<{ inCart?: boolean }>`
+  border: 2px solid
+    ${({ inCart, theme }) => (inCart ? theme.color.primary : 'none')};
+
   width: 100%;
   height: auto;
   overflow: hidden;
-  border-radius: 16px;
+  border-radius: 8px;
+
+  @media (max-width: 414px) {
+    width: 100%;
+    height: 216px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `;
 
 const Image = styled.img`

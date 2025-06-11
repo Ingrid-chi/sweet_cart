@@ -7,7 +7,7 @@ export const theme = {
     secondaryText: '#766C6A',
     thirdText: '#E6E6E6',
     white: '#FFF',
-    primaryBackground: '#FCF8F5',
+    backgroundPrimary: '#FCF8F5',
   },
   font: {
     main: "'Noto Sans TC', sans-serif",

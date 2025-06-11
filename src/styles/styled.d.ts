@@ -19,7 +19,7 @@ declare module 'styled-components' {
       secondaryText: string;
       thirdText: string;
       white: string;
-      primaryBackground: string;
+      backgroundPrimary: string;
     };
     font: {
       main: string;

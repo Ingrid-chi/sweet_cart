@@ -1,6 +1,9 @@
 // import { FaPlus, FaMinus } from 'react-icons/fa';
 import { MdAddShoppingCart } from 'react-icons/md';
-import { IoCloseCircleOutline } from 'react-icons/io5';
+import {
+  IoCloseCircleOutline,
+  IoCheckmarkCircleOutline,
+} from 'react-icons/io5';
 import {
   HiOutlinePlusCircle,
   HiPlusCircle,
@@ -15,7 +18,8 @@ export type IconName =
   | 'plusFilled'
   | 'minus'
   | 'minusFilled'
-  | 'close';
+  | 'close'
+  | 'check';
 
 interface IconProps {
   name: IconName;
@@ -32,6 +36,7 @@ const icon: Record<IconName, IconType> = {
   minus: HiOutlineMinusCircle,
   minusFilled: HiMinusCircle,
   close: IoCloseCircleOutline,
+  check: IoCheckmarkCircleOutline,
 };
 
 export const Icon = ({

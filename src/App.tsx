@@ -52,10 +52,14 @@ export default App;
 //
 //
 //
-// styled-components
+// ----- styled-components -----
 const Wrapper = styled.div`
   margin: 0 auto;
-  background-color: ${({ theme }) => theme.color.primaryBackground};
+  background-color: ${({ theme }) => theme.color.backgroundPrimary};
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const Container = styled.div`
@@ -68,7 +72,15 @@ const Container = styled.div`
 
   font-family: ${({ theme }) => theme.font.main};
   color: ${({ theme }) => theme.color.primaryText};
-  background-color: ${({ theme }) => theme.color.primaryBackground};
+  background-color: ${({ theme }) => theme.color.backgroundPrimary};
+
+  @media (max-width: 414px) {
+    margin: 24px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
 `;
 
 const CardWrapper = styled.div`
@@ -82,6 +94,11 @@ const CardGrid = styled.div`
   grid-column-gap: 32px;
   grid-row-gap: 32px;
   grid-template-columns: 1fr 1fr 1fr;
+
+  @media (max-width: 414px) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const CartWrapper = styled.div`

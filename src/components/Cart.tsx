@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Icon } from '../components/icons/Icon';
 
 import type { CartItem } from '../types/cart';
@@ -6,6 +7,7 @@ import type { Action } from '../reducers/cartReducer';
 import styled from 'styled-components';
 import emptyCartImg from '../assets/illustration-empty-cart.svg';
 import carbon from '../assets/icon-carbon-neutral.svg';
+import CartConfirmModal from './CartConfirmModal';
 
 interface CartProps {
   cartItems: CartItem[];
@@ -14,6 +16,8 @@ interface CartProps {
 
 const Cart = ({ cartItems, dispatch }: CartProps) => {
   const isEmpty = cartItems.length === 0;
+
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   const removeItem = (id: string) => {
     dispatch({ type: 'REMOVE_FROM_CART', payload: { id } });
@@ -25,6 +29,15 @@ const Cart = ({ cartItems, dispatch }: CartProps) => {
     return cartItems
       .reduce((total, item) => total + item.price * item.quantity, 0)
       .toFixed(2);
+  };
+
+  const handleConfirmOrder = () => {
+    setShowConfirmModal(true);
+  };
+
+  const handleRestartOrder = () => {
+    dispatch({ type: 'CLEAR_CART' });
+    setShowConfirmModal(false);
   };
 
   return (
@@ -71,7 +84,20 @@ const Cart = ({ cartItems, dispatch }: CartProps) => {
             <img src={carbon} alt={'carbon'} />
             This is a <strong>carbon-neutral</strong> delivery
           </CarbonNotice>
-          <ConfirmButton>Confirm Order</ConfirmButton>
+          <ConfirmButton onClick={handleConfirmOrder}>
+            Confirm Order
+          </ConfirmButton>
+
+          {showConfirmModal && (
+            <CartConfirmModalWrapper>
+              <CartConfirmModal
+                cartItems={cartItems}
+                totalPrice={getTotal()}
+                onClose={() => setShowConfirmModal(false)}
+                onRestart={handleRestartOrder}
+              />
+            </CartConfirmModalWrapper>
+          )}
         </CartList>
       )}
     </CartWrapper>
@@ -83,10 +109,10 @@ export default Cart;
 //
 //
 //
-// styled-components
+// ----- styled-components -----
 const CartWrapper = styled.div`
   width: 100%;
-  padding: 40px;
+  padding: 4px 24px 24px 24px;
 
   max-width: 480px;
   min-width: 200px;
@@ -183,9 +209,13 @@ const CarbonNotice = styled.div`
   align-items: center;
   gap: 8px;
 
-  padding: 16px 24px;
+  padding: 16px 16px;
   border-radius: 8px;
-  background-color: ${({ theme }) => theme.color.primaryBackground};
+  background-color: ${({ theme }) => theme.color.backgroundPrimary};
+
+  @media (max-width: 414px) {
+    font-size: 12px;
+  }
 `;
 
 const ConfirmButton = styled.div`
@@ -203,4 +233,9 @@ const ConfirmButton = styled.div`
   &:hover {
     background-color: ${({ theme }) => theme.color.third};
   }
+`;
+
+const CartConfirmModalWrapper = styled.div`
+  position: fixed;
+  z-index: 1;
 `;

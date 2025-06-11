@@ -5,7 +5,8 @@ export type Action =
   | { type: 'ADD_TO_CART'; payload: Dessert }
   | { type: 'REMOVE_FROM_CART'; payload: { id: string } }
   | { type: 'INCREASE_QUANTITY'; payload: { id: string } }
-  | { type: 'DECREASE_QUANTITY'; payload: { id: string } };
+  | { type: 'DECREASE_QUANTITY'; payload: { id: string } }
+  | { type: 'CLEAR_CART' };
 
 export const cartReducer = (state: CartItem[], action: Action): CartItem[] => {
   switch (action.type) {
@@ -41,6 +42,9 @@ export const cartReducer = (state: CartItem[], action: Action): CartItem[] => {
             }
           : item
       );
+
+    case 'CLEAR_CART':
+      return [];
 
     default:
       return state;
